@@ -1,7 +1,4 @@
 # emarket-mock-api
-Имитация API-контракта сервиса emarket-api-gateway
-
-# emarket-mock-api
 
 **Centralized Mock API Server for the emarket Platform**
 
