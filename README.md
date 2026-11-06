@@ -1,7 +1,7 @@
-# emarket-mock-api
+# emarket-api-mock
 Создание отдельного Mock API на базе WireMock для имитации HTTP API платформы emarket.
 
-# emarket-mock-api — Stage 1
+# emarket-api-mock — Stage 1
 
 ## 1. Назначение проекта
 
