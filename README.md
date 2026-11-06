@@ -5,7 +5,7 @@
 
 ## 1. Назначение проекта
 
-`emarket-mock-api` — отдельный проект, который имитирует работу `emarket-api-gateway` и возвращает заранее подготовленные HTTP responses для frontend-приложений.
+`emarket-api-mock` — отдельный проект, который имитирует работу `emarket-api-gateway` и возвращает заранее подготовленные HTTP responses для frontend-приложений.
 
 На Stage 1 у нас два клиента:
 
@@ -660,7 +660,7 @@ tests/admin/
 
 # Dev и Deployment режимы
 
-Предлагаю реализовать `emarket-mock-api` на базе **WireMock 3.x** с поддержкой двух режимов запуска:
+Предлагаю реализовать `emarket-api-mock` на базе **WireMock 3.x** с поддержкой двух режимов запуска:
 
 1. **Dev mode** — WireMock запускается непосредственно на host-машине, без Docker.
 2. **Deployment mode** — WireMock запускается внутри Docker-контейнера.
@@ -678,7 +678,7 @@ emarket-web (Vite · localhost:5173)
        │
        │ HTTP · localhost:9090
        v
-emarket-mock-api (WireMock Standalone · Java 21 · Port 9090)
+emarket-api-mock (WireMock Standalone · Java 21 · Port 9090)
 ```
 *Mappings и responses читаются непосредственно с файловой системы host-машины.*
 
@@ -689,7 +689,7 @@ emarket-web (Browser / Frontend)
        │
        │ HTTP · localhost:9090
        v
-Docker Container: emarket-mock-api (WireMock · Container port 8080)
+Docker Container: emarket-api-mock (WireMock · Container port 8080)
 ```
 *Mounted `mappings` и `__files`.*
 
@@ -701,7 +701,7 @@ Docker Container: emarket-mock-api (WireMock · Container port 8080)
 | :--- | :--- |
 | `emarket-web` (Vite) | `5173` |
 | `emarket-api-gateway` | `8080` |
-| `emarket-mock-api` | `9090` |
+| `emarket-api-mock` | `9090` |
 
 **Почему 9090?**  
 Потому что в Stage 1 уже предусмотрен `emarket-api-gateway` на порту `8080`. Mock API не должен конфликтовать с ним.
@@ -713,7 +713,7 @@ Docker Container: emarket-mock-api (WireMock · Container port 8080)
 Одна структура для обоих режимов:
 
 ```text
-emarket-mock-api/
+emarket-api-mock/
 │
 ├── wiremock/
 │   │
@@ -870,7 +870,7 @@ if [[ ! -f "$WIREMOCK_JAR" ]]; then
     exit 1
 fi
 
-echo "Starting emarket-mock-api in DEV mode..."
+echo "Starting emarket-api-mock in DEV mode..."
 echo "Port: $MOCK_API_PORT"
 
 exec java -jar "$WIREMOCK_JAR" \
@@ -928,9 +928,9 @@ curl http://localhost:9090/__admin/mappings
 
 ```yaml
 services:
-  emarket-mock-api:
+  emarket-api-mock:
     image: wiremock/wiremock:${WIREMOCK_VERSION:-3.13.1}
-    container_name: emarket-mock-api
+    container_name: emarket-api-mock
     ports:
       - "${MOCK_API_PORT:-9090}:8080"
     volumes:
@@ -987,7 +987,7 @@ docker compose ps
 
 Посмотреть логи:
 ```bash
-docker compose logs -f emarket-mock-api
+docker compose logs -f emarket-api-mock
 ```
 
 Проверить API:
@@ -1081,7 +1081,7 @@ VITE_API_BASE_URL=http://localhost:80/api/v1
 
 Сначала запускаем WireMock на host:
 ```bash
-cd emarket-mock-api
+cd emarket-api-mock
 ./scripts/start-host.sh
 ```
 
@@ -1099,7 +1099,7 @@ Browser
 emarket-web (localhost:5173)
    │
    v
-emarket-mock-api (localhost:9090)
+emarket-api-mock (localhost:9090)
 ```
 
 Для перехода на настоящий API Gateway достаточно выполнить:
@@ -1189,7 +1189,7 @@ emarket-mobile/
 
 **Терминал №1:**
 ```bash
-cd emarket-mock-api
+cd emarket-api-mock
 ./scripts/start-host.sh
 ```
 
@@ -1211,7 +1211,7 @@ npm run dev:mock
 
 **Терминал №1:**
 ```bash
-cd emarket-mock-api
+cd emarket-api-mock
 docker compose up -d
 ```
 
@@ -1234,7 +1234,7 @@ npm run dev:mock
 ### Сценарий C — Web + Mobile + Mock API
 
 ```text
-                emarket-mock-api
+                emarket-api-mock
                  localhost:9090
                        │
               ┌────────┴────────┐
@@ -1264,14 +1264,14 @@ Docker Network: emarket-network
 │                 │                  │
 │                 v                  │
 │   ┌────────────────────────────┐   │
-│   │       emarket-mock-api     │   │
+│   │       emarket-api-mock     │   │
 │   │       WireMock:8080        │   │
 │   └────────────────────────────┘   │
 │                                    │
 └────────────────────────────────────┘
 ```
 
-Внутри Docker network адрес Mock API: `http://emarket-mock-api:8080`
+Внутри Docker network адрес Mock API: `http://emarket-api-mock:8080`
 
 > **Но если запрос отправляет браузер пользователя**, а не серверный компонент, использовать Docker service name нельзя. Браузеру нужен доступный ему host/domain URL, например `http://localhost:9090` в локальной среде.
 
@@ -1314,7 +1314,7 @@ Docker Network: emarket-network
 
 ## 12. Итоговые архитектурные решения
 
-Я рекомендую зафиксировать следующие правила для `emarket-mock-api`:
+Я рекомендую зафиксировать следующие правила для `emarket-api-mock`:
 
 1. **WireMock** — единственный Mock API engine на Stage 1.
 2. Поддерживаются два режима: **Dev** и **Deployment**.
@@ -1338,7 +1338,7 @@ emarket/
 │
 ├── emarket-web/
 ├── emarket-mobile/
-├── emarket-mock-api/
+├── emarket-api-mock/
 │
 ├── emarket-api-gateway/
 ├── emarket-bff-web/
@@ -1348,6 +1348,6 @@ emarket/
 └── emarket-docs/
 ```
 
-Так `emarket-mock-api` будет самостоятельным инфраструктурным репозиторием, который можно использовать как для локальной разработки, так и для CI/CD и deployment тестового окружения.
+Так `emarket-api-mock` будет самостоятельным инфраструктурным репозиторием, который можно использовать как для локальной разработки, так и для CI/CD и deployment тестового окружения.
 
 При появлении настоящего `emarket-api-gateway` frontend сможет переключиться с Mock API на Gateway только изменением Base URL, сохраняя API-контракты.
