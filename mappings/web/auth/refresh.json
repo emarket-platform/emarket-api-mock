@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/web/auth/refresh"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "accessToken": "mock_web_new_access_token_def456",
+      "expiresIn": 3600
+    }
+  }
+}

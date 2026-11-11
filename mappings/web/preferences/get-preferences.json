@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/v1/web/preferences"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "theme": "light",
+      "language": "ru",
+      "notificationsEnabled": true
+    }
+  }
+}
