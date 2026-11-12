@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/mobile/auth/login"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "accessToken": "mock_mob_access_token_abc123",
+      "refreshToken": "mock_mob_refresh_token_xyz789",
+      "deviceToken": "fcm_token_xyz",
+      "expiresIn": 86400
+    }
+  }
+}

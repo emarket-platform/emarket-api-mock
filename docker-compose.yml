@@ -1,0 +1,49 @@
+services:
+  emarket-api-mock:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: emarket-api-mock
+
+    ports:
+      - "8090:8080"
+
+    command:
+      - "--verbose"
+      - "--local-response-templating"
+
+    restart: unless-stopped
+
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - -q
+        - -O
+        - /dev/null
+        - http://localhost:8080/__admin/health
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+    networks:
+      - emarket-network
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui:latest
+    container_name: emarket-swagger-ui
+    ports:
+      - "8091:8080"
+    environment:
+      SWAGGER_JSON: /openapi/openapi.yaml
+      DISPLAY_REQUEST_DURATION: "true"
+    volumes:
+      - ./openapi:/openapi:ro
+    depends_on:
+      - emarket-api-mock
+
+networks:
+  emarket-network:
+    external: true

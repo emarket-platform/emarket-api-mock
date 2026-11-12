@@ -1,0 +1,19 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/v1/web/addresses"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": [
+      {
+        "id": "addr_01",
+        "city": "Кишинев",
+        "street": "Штефан чел Маре",
+        "house": "10",
+        "isDefault": true
+      }
+    ]
+  }
+}

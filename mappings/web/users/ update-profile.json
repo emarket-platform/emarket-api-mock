@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "PUT",
+    "url": "/api/v1/web/users/profile"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "message": "Profile updated successfully",
+      "updatedAt": "2026-03-30T12:00:00Z"
+    }
+  }
+}

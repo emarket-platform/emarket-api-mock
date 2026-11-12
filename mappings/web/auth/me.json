@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/v1/web/auth/me"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "id": "usr_web_123456",
+      "email": "user@example.com",
+      "role": "CUSTOMER"
+    }
+  }
+}

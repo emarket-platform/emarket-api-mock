@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/web/auth/login"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "accessToken": "mock_web_access_token_abc123",
+      "refreshToken": "mock_web_refresh_token_xyz789",
+      "expiresIn": 3600
+    }
+  }
+}

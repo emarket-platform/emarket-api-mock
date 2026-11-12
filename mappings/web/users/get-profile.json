@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/v1/web/users/profile"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "id": "usr_web_123456",
+      "firstName": "Иван",
+      "lastName": "Иванов",
+      "phone": "+37360000000",
+      "avatar": "https://via.placeholder.com/150"
+    }
+  }
+}

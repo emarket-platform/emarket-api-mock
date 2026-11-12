@@ -1,0 +1,9 @@
+{
+  "request": {
+    "method": "DELETE",
+    "urlPattern": "/api/v1/web/addresses/[a-zA-Z0-9_]+"
+  },
+  "response": {
+    "status": 204
+  }
+}
